@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS `billing_contract`;
+
+CREATE DATABASE `billing_contract`;
+
 DROP TABLE IF EXISTS `product_a`;
 
 CREATE TABLE `product_a` (
