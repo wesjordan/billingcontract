@@ -1,6 +1,8 @@
 package com.wesjordan.billingcontract.controller;
 
 import com.wesjordan.billingcontract.BillingcontractApplication;
+import com.wesjordan.billingcontract.domain.ProductA;
+import com.wesjordan.billingcontract.repository.ProductARepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,9 @@ public class ProductAControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    ProductARepository productARepository;
+
 
     @Before
     public void setup() throws Exception{
@@ -38,10 +43,18 @@ public class ProductAControllerTest {
 
     @Test
     public void getAllProductATest() throws Exception{
+        //given
+        ProductA newProduct = new ProductA();
+        newProduct.setAccountId(1l);
+        newProduct.setContractLength(3);
+
+        productARepository.save(newProduct);
+
+        //when + then
         mockMvc.perform(get("/productA/1")).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("[0].accountId", is("1")));
+                .andExpect(jsonPath("$.accountId", is(1)))
+                .andExpect(jsonPath("$.contractLength", is(3)));
     }
 
 
