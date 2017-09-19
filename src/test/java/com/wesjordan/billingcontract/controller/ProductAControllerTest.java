@@ -1,7 +1,6 @@
 package com.wesjordan.billingcontract.controller;
 
 import com.wesjordan.billingcontract.BillingcontractApplication;
-import com.wesjordan.billingcontract.repository.ProductARepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +11,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -26,9 +27,6 @@ public class ProductAControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ProductARepository productARepository;
-
-    @Autowired
     private WebApplicationContext webApplicationContext;
 
 
@@ -40,8 +38,10 @@ public class ProductAControllerTest {
 
     @Test
     public void getAllProductATest() throws Exception{
-        mockMvc.perform(get("/productA/"))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/productA/1")).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("[0].accountId", is("1")));
     }
 
 
