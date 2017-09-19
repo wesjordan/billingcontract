@@ -1,6 +1,4 @@
-#DROP DATABASE IF EXISTS `billing_contract`;
-
-#CREATE DATABASE `billing_contract`;
+CREATE DATABASE IF NOT EXISTS `billing_contract`;
 
 DROP TABLE IF EXISTS `billing_contract`.`product_a`;
 
