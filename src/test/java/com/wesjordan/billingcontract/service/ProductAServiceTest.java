@@ -14,10 +14,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 public class ProductAServiceTest {
@@ -45,7 +49,7 @@ public class ProductAServiceTest {
     @Test
     public void testGetProductAWithSpecificAccountId(){
         //given
-        ProductA testProductA = getProductA();
+        ProductA testProductA = getProductA1();
         given(this.productAService.getProductByAccountId(1l)).willReturn(testProductA);
 
         //when
@@ -57,12 +61,55 @@ public class ProductAServiceTest {
         assertThat(p.getCharge().equals(testProductA.getCharge()));
     }
 
-    private ProductA getProductA(){
+    @Test
+    public void testGetAllProductA(){
+        //given
+        Iterable<ProductA> testProductAList = getProductAllProductA();
+        given(this.productAService.getAllProducts()).willReturn(testProductAList);
+
+        //when
+        Iterable<ProductA> productAIterable = productAService.getAllProducts();
+
+        //then
+        assertThat(productAIterable.equals(testProductAList));
+    }
+
+    @Test
+    public void testAddProductA(){
+        //given
+        ProductA testProductA = getProductA1();
+        given(this.productARepository.save(testProductA)).willReturn(null);
+
+        //when
+        productAService.addProductA(testProductA);
+
+        verify(productARepository, times(1)).save(testProductA);
+    }
+
+    private ProductA getProductA1(){
+        ProductA productA = getProductA(1l, 3, BigDecimal.valueOf(3500), BigDecimal.valueOf(1400));
+        return productA;
+    }
+
+    private ProductA getProductA2(){
+        ProductA productA = getProductA(2l, 6, BigDecimal.valueOf(4500), BigDecimal.valueOf(2000));
+        return productA;
+    }
+
+    private Iterable<ProductA> getProductAllProductA(){
+        List<ProductA> productAS = new ArrayList<>();
+        productAS.add(getProductA1());
+        productAS.add(getProductA2());
+
+        return productAS;
+    }
+
+    private ProductA getProductA(long accountId, int contractLength, BigDecimal charge, BigDecimal setupCharge) {
         ProductA productA = new ProductA();
-        productA.setAccountId(1l);
-        productA.setContractLength(3);
-        productA.setCharge(BigDecimal.valueOf(3500));
-        productA.setSetupCharge(BigDecimal.valueOf(1400));
+        productA.setAccountId(accountId);
+        productA.setContractLength(contractLength);
+        productA.setCharge(charge);
+        productA.setSetupCharge(setupCharge);
         productA.setStartDate(new Date());
         return productA;
     }
