@@ -41,7 +41,7 @@ public class ProductAControllerTest {
     }
 
     @Test
-    public void getAllProductATest() throws Exception{
+    public void getProductAByAccountIdTest() throws Exception{
         //given
         ProductA newProduct = new ProductA();
         newProduct.setAccountId(1l);
@@ -54,7 +54,31 @@ public class ProductAControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accountId", is(1)))
                 .andExpect(jsonPath("$.contractLength", is(3)));
+
+        productARepository.deleteAll();
     }
 
+
+    @Test
+    public void getAllProductATest() throws Exception{
+        //given
+        ProductA productA1 = new ProductA();
+        productA1.setAccountId(1l);
+        productA1.setContractLength(3);
+
+        ProductA productA2 = new ProductA();
+        productA2.setAccountId(2l);
+        productA2.setContractLength(6);
+
+        productARepository.save(productA1);
+        productARepository.save(productA2);
+
+        //when + then
+        mockMvc.perform(get("/productA/")).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].accountId", is(1)));
+
+        productARepository.deleteAll();
+    }
 
 }
