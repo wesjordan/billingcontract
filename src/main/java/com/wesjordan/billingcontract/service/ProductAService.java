@@ -8,11 +8,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductAService {
 
-    @Autowired
-    ProductARepository productARepository;
+    private ProductARepository productARepository;
 
-    public void addProductA(ProductA productA){
-        productARepository.save(productA);
+    @Autowired
+    public ProductAService(ProductARepository productARepository){
+        this.productARepository = productARepository;
+    }
+
+    public ProductA addProductA(ProductA productA){
+        return productARepository.save(productA);
     }
 
     public Iterable<ProductA> getAllProducts(){
