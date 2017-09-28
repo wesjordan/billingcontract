@@ -12,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,10 +49,10 @@ public class ProductAServiceTest {
     public void testGetProductAWithSpecificAccountId(){
         //given
         ProductA testProductA = getProductA1();
-        given(this.productAService.getProductByAccountId(1l)).willReturn(testProductA);
+        given(this.productAService.getProductByAccountId(1L)).willReturn(testProductA);
 
         //when
-        ProductA p = productAService.getProductByAccountId(1l);
+        ProductA p = productAService.getProductByAccountId(1L);
 
         //then
         assertThat(p.getAccountId().equals(testProductA.getAccountId()));
@@ -78,22 +77,21 @@ public class ProductAServiceTest {
     public void testAddProductA(){
         //given
         ProductA testProductA = getProductA1();
-        given(this.productARepository.save(testProductA)).willReturn(null);
+        given(this.productARepository.save(testProductA)).willReturn(testProductA);
 
         //when
-        productAService.addProductA(testProductA);
+        ProductA savedProductA = productAService.addProductA(testProductA);
 
         verify(productARepository, times(1)).save(testProductA);
+        assertThat(testProductA.getAccountId().equals(savedProductA.getAccountId()));
     }
 
     private ProductA getProductA1(){
-        ProductA productA = getProductA(1l, 3, BigDecimal.valueOf(3500), BigDecimal.valueOf(1400));
-        return productA;
+        return getProductA(1L, 3, BigDecimal.valueOf(3500), BigDecimal.valueOf(1400));
     }
 
     private ProductA getProductA2(){
-        ProductA productA = getProductA(2l, 6, BigDecimal.valueOf(4500), BigDecimal.valueOf(2000));
-        return productA;
+        return getProductA(2L, 6, BigDecimal.valueOf(4500), BigDecimal.valueOf(2000));
     }
 
     private Iterable<ProductA> getProductAllProductA(){
