@@ -25,7 +25,7 @@ public class ProductAController {
 
     @ApiOperation(value = "Adds a new instance of ProductA")
     @RequestMapping(method = RequestMethod.POST, value = "/")
-    public void addProduct(@RequestBody ProductA productA){
-        productAService.addProductA(productA);
+    public ProductA addProduct(@RequestBody ProductA productA){
+        return productAService.addProductA(productA);
     }
 }
