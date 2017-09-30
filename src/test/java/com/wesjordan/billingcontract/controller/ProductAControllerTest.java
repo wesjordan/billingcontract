@@ -104,4 +104,21 @@ public class ProductAControllerTest {
 
     }
 
+    @Test
+    public void testValidationOnAddProductAWithInvalidAccountId() throws Exception{
+        //given
+        ProductA productA = new ProductA();
+        productA.setAccountId(0L);
+
+        //when + then
+        mockMvc.perform(post("/productA/").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productA)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorCode", is("Validation error")))
+                .andExpect(jsonPath("$.errorMessage", is("Invalid input")))
+                .andExpect(jsonPath("$.errors[0]", is("The supplied accountId is invalid")));
+
+    }
+
 }
