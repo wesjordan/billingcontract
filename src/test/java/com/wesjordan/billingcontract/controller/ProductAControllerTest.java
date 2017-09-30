@@ -119,6 +119,18 @@ public class ProductAControllerTest {
                 .andExpect(jsonPath("$.errorMessage", is("Invalid input")))
                 .andExpect(jsonPath("$.errors[0]", is("The supplied accountId is invalid")));
 
+
+        //given
+        productA.setAccountId(null);
+
+        //when + then
+        mockMvc.perform(post("/productA/").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productA)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorCode", is("Validation error")))
+                .andExpect(jsonPath("$.errorMessage", is("Invalid input")))
+                .andExpect(jsonPath("$.errors[0]", is("The supplied accountId is invalid")));
     }
 
 }
