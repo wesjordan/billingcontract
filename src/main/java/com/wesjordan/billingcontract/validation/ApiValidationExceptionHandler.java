@@ -31,7 +31,7 @@ public class ApiValidationExceptionHandler {
     private List<String> fromBindingErrors(Errors errors){
         List<String> errorList = new ArrayList<>();
         for(ObjectError objectError: errors.getAllErrors()){
-            errorList.add(objectError.getCodes()[0]);
+            errorList.add(objectError.getCodes()[objectError.getCodes().length-1]);
         }
         return errorList;
     }
