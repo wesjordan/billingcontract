@@ -3,7 +3,6 @@ package com.wesjordan.billingcontract.controller;
 import com.wesjordan.billingcontract.domain.ProductA;
 import com.wesjordan.billingcontract.service.ProductAService;
 import com.wesjordan.billingcontract.validation.ProductAValidator;
-import com.wesjordan.billingcontract.validation.errors.SimpleMessageCodeResolver;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
@@ -14,9 +13,6 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/productA")
 public class ProductAController {
-
-    @Autowired
-    SimpleMessageCodeResolver simpleMessageCodeResolver;
 
     @Autowired
     ProductAService productAService;
@@ -42,7 +38,6 @@ public class ProductAController {
 
     @InitBinder
     public void dataBinding(WebDataBinder dataBinder){
-        dataBinder.setMessageCodesResolver(simpleMessageCodeResolver);
         dataBinder.addValidators(productAValidator);
     }
 
