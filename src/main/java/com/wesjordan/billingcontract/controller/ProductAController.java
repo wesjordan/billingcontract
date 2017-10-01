@@ -23,11 +23,13 @@ public class ProductAController {
         this.productAValidator = productAValidator;
     }
 
+    @ApiOperation(value = "Returns a list of all ProductA's")
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public Iterable<ProductA> getProducts(){
         return productAService.getAllProducts();
     }
 
+    @ApiOperation(value = "Returns a particular ProductA based on the accountId")
     @RequestMapping(method = RequestMethod.GET, value = "/{accountId}")
     public ProductA getProductByAccountId(@PathVariable Long accountId){
         return productAService.getProductByAccountId(accountId);
