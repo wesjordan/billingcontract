@@ -9,9 +9,4 @@ public enum BillingFrequency {
     BillingFrequency(Integer billingFrequency){
         this.billingFrequency = billingFrequency;
     }
-
-    public Integer getBillingFrequency(){
-        return billingFrequency;
-    }
-
 }
