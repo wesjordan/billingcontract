@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-class ExceptionResponse {
+public class ExceptionResponse {
 
     private String errorCode;
     private String errorMessage;
