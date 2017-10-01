@@ -6,10 +6,9 @@ import com.wesjordan.billingcontract.repository.ProductARepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -25,16 +24,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(SpringRunner.class)
 public class ProductAServiceTest {
 
-    @TestConfiguration
-    static class ProductAServiceTestContextConfiguration {
-
-        @Bean
-        public ProductAService productAService(){
-            return new ProductAService();
-        }
-    }
-
-    @Autowired
+    @InjectMocks
     private ProductAService productAService;
 
     @MockBean
@@ -42,7 +32,7 @@ public class ProductAServiceTest {
 
     @Before
     public void setUp(){
-
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test

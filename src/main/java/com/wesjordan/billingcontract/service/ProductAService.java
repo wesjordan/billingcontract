@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductAService {
 
-    @Autowired
     private ProductARepository productARepository;
+
+    @Autowired
+    public ProductAService(ProductARepository productARepository){
+        this.productARepository = productARepository;
+    }
 
 
     public ProductA addProductA(ProductA productA){

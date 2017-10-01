@@ -14,11 +14,14 @@ import javax.validation.Valid;
 @RequestMapping("/productA")
 public class ProductAController {
 
-    @Autowired
-    ProductAService productAService;
+    private ProductAService productAService;
+    private ProductAValidator productAValidator;
 
     @Autowired
-    ProductAValidator productAValidator;
+    public ProductAController(ProductAService productAService, ProductAValidator productAValidator){
+        this.productAService = productAService;
+        this.productAValidator = productAValidator;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public Iterable<ProductA> getProducts(){
