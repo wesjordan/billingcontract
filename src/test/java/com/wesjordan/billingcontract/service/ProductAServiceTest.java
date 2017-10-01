@@ -53,7 +53,7 @@ public class ProductAServiceTest {
     @Test
     public void testGetAllProductA(){
         //given
-        Iterable<ProductA> testProductAList = getProductAllProductA();
+        Iterable<ProductA> testProductAList = getProductAList();
         given(this.productAService.getAllProducts()).willReturn(testProductAList);
 
         //when
@@ -84,7 +84,7 @@ public class ProductAServiceTest {
         return getProductA(2L, 6, BigDecimal.valueOf(4500), BigDecimal.valueOf(2000));
     }
 
-    private Iterable<ProductA> getProductAllProductA(){
+    private Iterable<ProductA> getProductAList(){
         List<ProductA> productAS = new ArrayList<>();
         productAS.add(getProductA1());
         productAS.add(getProductA2());
