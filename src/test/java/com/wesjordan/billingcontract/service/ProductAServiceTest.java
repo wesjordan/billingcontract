@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -27,7 +27,7 @@ public class ProductAServiceTest {
     @InjectMocks
     private ProductAService productAService;
 
-    @MockBean
+    @Mock
     private ProductARepository productARepository;
 
     @Before
@@ -45,9 +45,9 @@ public class ProductAServiceTest {
         ProductA p = productAService.getProductByAccountId(1L);
 
         //then
-        assertThat(p.getAccountId().equals(testProductA.getAccountId()));
-        assertThat(p.getContractLength().equals(testProductA.getContractLength()));
-        assertThat(p.getCharge().equals(testProductA.getCharge()));
+        assertEquals(p.getAccountId(),testProductA.getAccountId());
+        assertEquals(p.getContractLength(),testProductA.getContractLength());
+        assertEquals(p.getCharge(),testProductA.getCharge());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class ProductAServiceTest {
         Iterable<ProductA> productAIterable = productAService.getAllProducts();
 
         //then
-        assertThat(productAIterable.equals(testProductAList));
+        assertEquals(productAIterable, testProductAList);
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ProductAServiceTest {
         ProductA savedProductA = productAService.addProductA(testProductA);
 
         verify(productARepository, times(1)).save(testProductA);
-        assertThat(testProductA.getAccountId().equals(savedProductA.getAccountId()));
+        assertEquals(testProductA.getAccountId(),savedProductA.getAccountId());
     }
 
     private ProductA getProductA1(){
