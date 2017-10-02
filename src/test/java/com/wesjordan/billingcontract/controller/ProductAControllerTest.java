@@ -2,6 +2,7 @@ package com.wesjordan.billingcontract.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesjordan.billingcontract.BillingcontractApplication;
+import com.wesjordan.billingcontract.domain.Money;
 import com.wesjordan.billingcontract.domain.ProductA;
 import com.wesjordan.billingcontract.repository.ProductARepository;
 import org.junit.After;
@@ -15,6 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.math.BigDecimal;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -74,10 +77,14 @@ public class ProductAControllerTest {
         ProductA productA1 = new ProductA();
         productA1.setAccountId(1L);
         productA1.setContractLength(3);
+        productA1.setCharge(Money.EUR(BigDecimal.valueOf(4500L)));
+        productA1.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
 
         ProductA productA2 = new ProductA();
         productA2.setAccountId(2L);
         productA2.setContractLength(6);
+        productA2.setCharge(Money.EUR(BigDecimal.valueOf(4500L)));
+        productA2.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
 
         productARepository.save(productA1);
         productARepository.save(productA2);
