@@ -3,7 +3,6 @@ package com.wesjordan.billingcontract.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -13,13 +12,23 @@ public class ProductA {
 
     @Id @GeneratedValue
     private Long id;
-
     private Long accountId;
-    private BigDecimal charge;
-    private BigDecimal setupCharge;
+    @Embedded
+    @AttributeOverrides(value = {
+            @AttributeOverride(name="value", column = @Column(name = "charge_value")),
+            @AttributeOverride(name="currency", column = @Column(name = "charge_currency")),
+    })
+    private Money charge;
+    @Embedded
+    @AttributeOverrides(value = {
+            @AttributeOverride(name="value", column = @Column(name = "setup_charge_value")),
+            @AttributeOverride(name="currency", column = @Column(name = "setup_charge_currency")),
+    })
+    private Money setupCharge;
     private Date startDate;
     private Integer contractLength;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "billing_frequency")
     private BillingFrequency billingFrequency;
 }

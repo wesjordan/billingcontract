@@ -1,6 +1,7 @@
 package com.wesjordan.billingcontract.service;
 
 
+import com.wesjordan.billingcontract.domain.Money;
 import com.wesjordan.billingcontract.domain.ProductA;
 import com.wesjordan.billingcontract.repository.ProductARepository;
 import org.junit.Before;
@@ -96,8 +97,8 @@ public class ProductAServiceTest {
         ProductA productA = new ProductA();
         productA.setAccountId(accountId);
         productA.setContractLength(contractLength);
-        productA.setCharge(charge);
-        productA.setSetupCharge(setupCharge);
+        productA.setCharge(Money.USD(charge));
+        productA.setSetupCharge(Money.USD(setupCharge));
         productA.setStartDate(new Date());
         return productA;
     }
