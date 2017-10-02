@@ -9,6 +9,7 @@ import org.meanbean.test.Configuration;
 import org.meanbean.test.ConfigurationBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 
 @RunWith(SpringRunner.class)
@@ -22,8 +23,10 @@ public class MeanBeanTest {
     @Test
     public void testProductA(){
         BeanTester beanTester = new BeanTester();
-        beanTester.testBean(ProductA.class);
-        beanTester.testBean(Money.class);
+        Configuration config = new ConfigurationBuilder()
+                .overrideFactory("charge", new MoneyFactory())
+                .overrideFactory("setupCharge", new MoneyFactory()).build();
+        beanTester.testBean(ProductA.class, config);
     }
 
     @Test
@@ -33,9 +36,14 @@ public class MeanBeanTest {
         beanTester.testBean(Money.class, config);
     }
 
+    private class MoneyFactory implements Factory<Money> {
+        @Override
+        public Money create() {
+            return Money.USD(BigDecimal.valueOf(500L));
+        }
+    }
 
     private class CurrencyFactory implements Factory<Currency> {
-
         @Override
         public Currency create() {
             return  Currency.getInstance("USD");
