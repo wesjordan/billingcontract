@@ -1,13 +1,15 @@
 package com.wesjordan.billingcontract.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 import java.util.Currency;
 
 @Embeddable
-@Data
+@Getter
+@Setter
 public class Money {
 
     private BigDecimal value;
