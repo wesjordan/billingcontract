@@ -7,8 +7,8 @@ services:
 before_install:
 - mysql -e 'CREATE DATABASE IF NOT EXISTS billing_contract;'
 
-- docker pull landoop/fast-data-dev
-- docker run --rm -it -p 2181:2181 -p 3030:3030 -p 8081:8081 -p 8082:8082 -p 8083:8083 -p 9092:9092 -e ADV_HOST=127.0.0.1 landoop/fast-data-dev
+- docker pull spotify/kafka
+- docker run -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=127.0.0.1 --env ADVERTISED_PORT=9092 spotify/kafka
 - docker ps -a
 
 notifications:
