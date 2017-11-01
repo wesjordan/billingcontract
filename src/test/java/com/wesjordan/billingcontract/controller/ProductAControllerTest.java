@@ -2,22 +2,29 @@ package com.wesjordan.billingcontract.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesjordan.billingcontract.BillingcontractApplication;
+import com.wesjordan.billingcontract.domain.BillingFrequency;
 import com.wesjordan.billingcontract.domain.Money;
 import com.wesjordan.billingcontract.domain.ProductA;
+import com.wesjordan.billingcontract.dto.ProductADto;
+import com.wesjordan.billingcontract.mapping.ProductAMapper;
 import com.wesjordan.billingcontract.repository.ProductARepository;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.test.rule.KafkaEmbedded;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,6 +37,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BillingcontractApplication.class)
 @WebAppConfiguration
+@DirtiesContext
 public class ProductAControllerTest {
 
     private MockMvc mockMvc;
@@ -43,6 +51,13 @@ public class ProductAControllerTest {
     @Autowired
     ProductARepository productARepository;
 
+    @Autowired
+    private ProductAMapper productAMapper;
+
+    private static String PUBLISHING_TOPIC = "ProductA";
+
+    @ClassRule
+    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, PUBLISHING_TOPIC);
 
     @Before
     public void setup() throws Exception{
@@ -57,11 +72,11 @@ public class ProductAControllerTest {
     @Test
     public void getProductAByAccountIdTest() throws Exception{
         //given
-        ProductA newProduct = new ProductA();
+        ProductADto newProduct = new ProductADto();
         newProduct.setAccountId(1L);
         newProduct.setContractLength(3);
 
-        productARepository.save(newProduct);
+        productARepository.save(productAMapper.map(newProduct, ProductA.class));
 
         //when + then
         mockMvc.perform(get("/productA/1")).andDo(print())
@@ -74,20 +89,20 @@ public class ProductAControllerTest {
     @Test
     public void getAllProductATest() throws Exception{
         //given
-        ProductA productA1 = new ProductA();
+        ProductADto productA1 = new ProductADto();
         productA1.setAccountId(1L);
         productA1.setContractLength(3);
         productA1.setCharge(Money.EUR(BigDecimal.valueOf(4500L)));
         productA1.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
 
-        ProductA productA2 = new ProductA();
+        ProductADto productA2 = new ProductADto();
         productA2.setAccountId(2L);
         productA2.setContractLength(6);
         productA2.setCharge(Money.EUR(BigDecimal.valueOf(4500L)));
         productA2.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
 
-        productARepository.save(productA1);
-        productARepository.save(productA2);
+        productARepository.save(productAMapper.map(productA1, ProductA.class));
+        productARepository.save(productAMapper.map(productA2, ProductA.class));
 
         //when + then
         mockMvc.perform(get("/productA/")).andDo(print())
@@ -98,23 +113,26 @@ public class ProductAControllerTest {
     @Test
     public void addProductATest() throws Exception{
         //given
-        ProductA productA = new ProductA();
+        ProductADto productA = new ProductADto();
         productA.setAccountId(1L);
         productA.setContractLength(3);
+        productA.setBillingFrequency(BillingFrequency.MONTHLY);
+        productA.setCharge(Money.EUR(BigDecimal.valueOf(10000L)));
+        productA.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
+        productA.setStartDate(new Date());
 
         //when + then
         mockMvc.perform(post("/productA/").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(productA)))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accountId", is(1)));
+                .andExpect(status().isOk());
 
     }
 
     @Test
     public void testValidationOnAddProductAWithInvalidAccountId() throws Exception{
         //given
-        ProductA productA = new ProductA();
+        ProductADto productA = new ProductADto();
         productA.setAccountId(0L);
 
         //when + then
