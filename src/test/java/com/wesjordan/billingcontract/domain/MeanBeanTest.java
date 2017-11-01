@@ -39,7 +39,7 @@ public class MeanBeanTest {
     private class MoneyFactory implements Factory<Money> {
         @Override
         public Money create() {
-            return Money.USD(BigDecimal.valueOf(500L));
+            return new Money(BigDecimal.valueOf(500L), Currency.getInstance("USD"));
         }
     }
 
