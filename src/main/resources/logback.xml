@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.wesjordan" level="ERROR" />
+    <logger name="com.wesjordan" level="INFO"/>
     <logger name="org.springframework" level="ERROR" />
     <logger name="org.meanbean" level="ERROR" />
 
