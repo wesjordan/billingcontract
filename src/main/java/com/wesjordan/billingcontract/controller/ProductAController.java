@@ -1,9 +1,11 @@
 package com.wesjordan.billingcontract.controller;
 
-import com.wesjordan.billingcontract.domain.ProductA;
+import com.wesjordan.billingcontract.dto.ProductADto;
 import com.wesjordan.billingcontract.service.ProductAService;
 import com.wesjordan.billingcontract.validation.ProductAValidator;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +27,36 @@ public class ProductAController {
 
     @ApiOperation(value = "Returns a list of all ProductA's")
     @RequestMapping(method = RequestMethod.GET, value = "/")
-    public Iterable<ProductA> getProducts(){
+    public Iterable<ProductADto> getProducts() {
         return productAService.getAllProducts();
     }
 
     @ApiOperation(value = "Returns a particular ProductA based on the accountId")
     @RequestMapping(method = RequestMethod.GET, value = "/{accountId}")
-    public ProductA getProductByAccountId(@PathVariable Long accountId){
+    public ProductADto getProductByAccountId(@PathVariable Long accountId) {
         return productAService.getProductByAccountId(accountId);
     }
 
     @ApiOperation(value = "Adds a new instance of ProductA")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 502, message = "Bad Gateway")
+    })
     @RequestMapping(method = RequestMethod.POST, value = "/")
-    public ProductA addProduct(@Valid @RequestBody ProductA productA){
-        return productAService.addProductA(productA);
+    public void addProduct(@Valid @RequestBody ProductADto productA) {
+        productAService.addProductA(productA);
+    }
+
+    @ApiOperation(value = "Updates an instance of ProductA")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 502, message = "Bad Gateway")
+    })
+    @RequestMapping(method = RequestMethod.PUT, value = "/")
+    public void updateProduct(@Valid @RequestBody ProductADto productA) {
+        productAService.updateProductA(productA);
     }
 
     @InitBinder
