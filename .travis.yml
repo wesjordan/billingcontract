@@ -14,6 +14,14 @@ before_install:
 notifications:
   slack:
     secure: KTDMAyKsalzb1U4nSF8zi0f8jidP0gTlhParbWOfmB6lW7J3yaQ5OtWOY2uHIP1puMrzkzinRqQTnp0nRHwCK8obb+ZCij0ACrkwuPXdsA270zMHDhuoI1ekF/yJ/pFG4dS1Q6Lrl4ZDg1SE59FP2YTBp6AqA6dXXvwCpnhPCO4ZdNlSiD0aXFvoKF9E/Zq96eerkJSLjg4bQzEhKYjVO9TQReFU6PojbXDLLjHbzULC1lGwXiwHGYM5s3GiNZm7E79aasISQxEhcK06K73WezCt5qwQH3axz8t6PzKRiE2XqSONNmYncUK1dsMC5SYUTA8fuuIkdFtMcb3HVgDPSFjHv7u91VyNkSQBK7ejcpC/ILfZ1Cq+Q6hNOaagxyn+VrGSwX2T02j7K1xipQTQ0bwLKkGmz98uMuMfJLhbBB0QQD+J15jlaSqJD0lrjfr8YGjv3LHNE1xctS9VBpZ1jQEI0khfLqKEDRmFpWNsoEe4mBz15OYEE4uWNESRqBnFno+Nks7UgSAHWQM+pa9TZaXL+yEi3xRnXYoGQjElk9uvW4USIS1ZBa58HP1pIC7ltmjMY398MK9TdHZ+s8mCeJVG9zP6xkm5aBI6yWwq9pUlDXbJ4d02KVpiM3Xfos+P5c+QNTgFAJtN/U+4B+OECa6VC0JT+Q5214MJz0ZErEM=
+
+addons:
+  sonarcloud:
+    organization: "wesjordan-github" # the key of the org you chose at step #3
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner
+
 script:
   - ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
