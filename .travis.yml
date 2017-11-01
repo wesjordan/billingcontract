@@ -20,7 +20,7 @@ addons:
     organization: "wesjordan" # the key of the org you chose at step #3
 script:
   # other script steps might be done before running the actual analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  - sonar-scanner
 
 script:
   - ./mvnw clean install
