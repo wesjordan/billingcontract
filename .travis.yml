@@ -20,8 +20,6 @@ addons:
   sonarcloud:
     organization: "wesjordan-github" # the key of the org you chose at step #3
 
-  # other script steps might be done before running the actual analysis
-
 
 cache:
   directories:
