@@ -1,10 +1,12 @@
 language: java
 dist: trusty
+sudo: required
+
 jdk: oraclejdk8
 
 services:
  - mysql
- - docker
+# - docker
 
 
 before_install:
@@ -17,9 +19,9 @@ before_install:
 addons:
   sonarcloud:
     organization: "wesjordan" # the key of the org you chose at step #3
-script:
+
   # other script steps might be done before running the actual analysis
-    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+
 
 cache:
   directories:
@@ -29,6 +31,7 @@ cache:
 script:
   - ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 
 notifications:
   slack:
