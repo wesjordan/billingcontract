@@ -4,9 +4,9 @@ public enum BillingFrequency {
 
     MONTHLY(1), QUARTERLY(3), ANNUALLY(12);
 
-    private Integer billingFrequency;
+    private Integer frequency;
 
-    BillingFrequency(Integer billingFrequency){
-        this.billingFrequency = billingFrequency;
+    BillingFrequency(Integer frequency) {
+        this.frequency = frequency;
     }
 }
