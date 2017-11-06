@@ -25,11 +25,11 @@ public class Money {
     }
 
     public static Money usd(BigDecimal value) {
-        return new Money(value, Currency.getInstance("usd"));
+        return new Money(value, Currency.getInstance("USD"));
     }
 
     public static Money eur(BigDecimal value) {
-        return new Money(value, Currency.getInstance("eur"));
+        return new Money(value, Currency.getInstance("EUR"));
     }
 
 }
