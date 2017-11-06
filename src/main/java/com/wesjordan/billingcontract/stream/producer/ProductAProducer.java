@@ -27,16 +27,12 @@ public class ProductAProducer {
     }
 
     public void publishProductACreatedEvent(ProductADto productADto){
-        ProductAEventMessage create = new ProductAEventMessage();
-        create.setEvent(ProductAEventType.PRODUCT_A_CREATED);
-        create.setPayload(productADto);
+        ProductAEventMessage create = new ProductAEventMessage(ProductAEventType.PRODUCT_A_CREATED, productADto);
         publish(create);
     }
 
     public void publishProductAUpdatedEvent(ProductADto productADto){
-        ProductAEventMessage update = new ProductAEventMessage();
-        update.setEvent(ProductAEventType.PRODUCT_A_UPDATED);
-        update.setPayload(productADto);
+        ProductAEventMessage update = new ProductAEventMessage(ProductAEventType.PRODUCT_A_UPDATED, productADto);
         publish(update);
     }
 

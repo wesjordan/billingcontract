@@ -9,4 +9,9 @@ import lombok.Setter;
 public class ProductAEventMessage {
     private ProductAEventType event;
     private ProductADto payload;
+
+    public ProductAEventMessage(ProductAEventType event, ProductADto payload) {
+        this.event = event;
+        this.payload = payload;
+    }
 }
