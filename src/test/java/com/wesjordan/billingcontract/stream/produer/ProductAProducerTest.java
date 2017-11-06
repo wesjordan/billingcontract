@@ -93,8 +93,8 @@ public class ProductAProducerTest {
         //publish
         ProductADto prod = new ProductADto();
         prod.setAccountId(1L);
-        prod.setCharge(Money.USD(BigDecimal.valueOf(1000L)));
-        prod.setSetupCharge(Money.USD(BigDecimal.valueOf(200L)));
+        prod.setCharge(Money.usd(BigDecimal.valueOf(1000L)));
+        prod.setSetupCharge(Money.usd(BigDecimal.valueOf(200L)));
 
         productAProducer.publishProductACreatedEvent(prod);
 
@@ -116,8 +116,8 @@ public class ProductAProducerTest {
         //publish
         ProductADto prod = new ProductADto();
         prod.setAccountId(1L);
-        prod.setCharge(Money.USD(BigDecimal.valueOf(1200L)));
-        prod.setSetupCharge(Money.USD(BigDecimal.valueOf(300L)));
+        prod.setCharge(Money.usd(BigDecimal.valueOf(1200L)));
+        prod.setSetupCharge(Money.usd(BigDecimal.valueOf(300L)));
 
         productAProducer.publishProductAUpdatedEvent(prod);
 

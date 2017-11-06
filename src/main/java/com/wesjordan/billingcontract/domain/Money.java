@@ -24,12 +24,12 @@ public class Money {
         this.currency = currency;
     }
 
-    public static Money USD(BigDecimal value){
-        return new Money(value, Currency.getInstance("USD"));
+    public static Money usd(BigDecimal value) {
+        return new Money(value, Currency.getInstance("usd"));
     }
 
-    public static Money EUR(BigDecimal value){
-        return new Money(value, Currency.getInstance("EUR"));
+    public static Money eur(BigDecimal value) {
+        return new Money(value, Currency.getInstance("eur"));
     }
 
 }

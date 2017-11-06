@@ -117,8 +117,8 @@ public class ProductAServiceTest {
         ProductADto productA = new ProductADto();
         productA.setAccountId(accountId);
         productA.setContractLength(contractLength);
-        productA.setCharge(Money.USD(charge));
-        productA.setSetupCharge(Money.USD(setupCharge));
+        productA.setCharge(Money.usd(charge));
+        productA.setSetupCharge(Money.usd(setupCharge));
         productA.setStartDate(new Date());
         return productA;
     }

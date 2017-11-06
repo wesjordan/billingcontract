@@ -91,14 +91,14 @@ public class ProductAControllerTest {
         ProductADto productA1 = new ProductADto();
         productA1.setAccountId(1L);
         productA1.setContractLength(3);
-        productA1.setCharge(Money.EUR(BigDecimal.valueOf(4500L)));
-        productA1.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
+        productA1.setCharge(Money.eur(BigDecimal.valueOf(4500L)));
+        productA1.setSetupCharge(Money.eur(BigDecimal.valueOf(1500L)));
 
         ProductADto productA2 = new ProductADto();
         productA2.setAccountId(2L);
         productA2.setContractLength(6);
-        productA2.setCharge(Money.EUR(BigDecimal.valueOf(4500L)));
-        productA2.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
+        productA2.setCharge(Money.eur(BigDecimal.valueOf(4500L)));
+        productA2.setSetupCharge(Money.eur(BigDecimal.valueOf(1500L)));
 
         productARepository.save(productAMapper.map(productA1, ProductA.class));
         productARepository.save(productAMapper.map(productA2, ProductA.class));
@@ -116,8 +116,8 @@ public class ProductAControllerTest {
         productA.setAccountId(1L);
         productA.setContractLength(3);
         productA.setBillingFrequency(BillingFrequency.MONTHLY);
-        productA.setCharge(Money.EUR(BigDecimal.valueOf(10000L)));
-        productA.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
+        productA.setCharge(Money.eur(BigDecimal.valueOf(10000L)));
+        productA.setSetupCharge(Money.eur(BigDecimal.valueOf(1500L)));
         productA.setStartDate(new Date());
 
         //when + then
@@ -134,8 +134,8 @@ public class ProductAControllerTest {
         productA.setAccountId(1L);
         productA.setContractLength(3);
         productA.setBillingFrequency(BillingFrequency.MONTHLY);
-        productA.setCharge(Money.EUR(BigDecimal.valueOf(10000L)));
-        productA.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
+        productA.setCharge(Money.eur(BigDecimal.valueOf(10000L)));
+        productA.setSetupCharge(Money.eur(BigDecimal.valueOf(1500L)));
         productA.setStartDate(new Date());
 
         //when + then
