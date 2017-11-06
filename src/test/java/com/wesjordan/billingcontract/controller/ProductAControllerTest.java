@@ -27,8 +27,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -126,7 +125,24 @@ public class ProductAControllerTest {
                 .content(objectMapper.writeValueAsString(productA)))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
 
+    @Test
+    public void updateProductATest() throws Exception {
+        //given
+        ProductADto productA = new ProductADto();
+        productA.setAccountId(1L);
+        productA.setContractLength(3);
+        productA.setBillingFrequency(BillingFrequency.MONTHLY);
+        productA.setCharge(Money.EUR(BigDecimal.valueOf(10000L)));
+        productA.setSetupCharge(Money.EUR(BigDecimal.valueOf(1500L)));
+        productA.setStartDate(new Date());
+
+        //when + then
+        mockMvc.perform(put("/productA/").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productA)))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
