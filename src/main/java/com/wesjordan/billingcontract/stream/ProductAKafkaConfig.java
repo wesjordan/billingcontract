@@ -1,5 +1,6 @@
 package com.wesjordan.billingcontract.stream;
 
+import com.wesjordan.billingcontract.stream.event.ProductAEventMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,12 +20,12 @@ public class ProductAKafkaConfig {
     private String bootstrapServers;
 
     @Bean
-    public KafkaTemplate<Integer, String> kafkaTemplate(){
+    public KafkaTemplate<String, ProductAEventMessage> kafkaTemplate() {
         return new KafkaTemplate<>(getProductAProducerFactory());
     }
 
     @Bean
-    public ProducerFactory<Integer, String> getProductAProducerFactory(){
+    public ProducerFactory<String, ProductAEventMessage> getProductAProducerFactory() {
         return new DefaultKafkaProducerFactory<>(productAProducerConfigs());
     }
 

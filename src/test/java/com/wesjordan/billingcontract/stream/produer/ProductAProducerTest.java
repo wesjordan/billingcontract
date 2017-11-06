@@ -2,6 +2,8 @@ package com.wesjordan.billingcontract.stream.produer;
 
 import com.wesjordan.billingcontract.domain.Money;
 import com.wesjordan.billingcontract.dto.ProductADto;
+import com.wesjordan.billingcontract.stream.event.ProductAEventMessage;
+import com.wesjordan.billingcontract.stream.event.ProductAEventType;
 import com.wesjordan.billingcontract.stream.producer.ProductAProducer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.After;
@@ -17,6 +19,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.kafka.listener.config.ContainerProperties;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
@@ -29,6 +32,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
@@ -42,8 +46,8 @@ public class ProductAProducerTest {
     @Autowired
     ProductAProducer productAProducer;
 
-    private KafkaMessageListenerContainer<String, String> container;
-    private BlockingQueue<ConsumerRecord<String, String>> records;
+    private KafkaMessageListenerContainer<String, ProductAEventMessage> container;
+    private BlockingQueue<ConsumerRecord<String, ProductAEventMessage>> records;
 
     @ClassRule
     public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, PUBLISHING_TOPIC);
@@ -55,7 +59,7 @@ public class ProductAProducerTest {
         Map<String, Object> consumerProps = KafkaTestUtils.consumerProps("publisher", "false", embeddedKafka);
 
         //consumer factory
-        DefaultKafkaConsumerFactory<String, String> consumerFactory = new DefaultKafkaConsumerFactory<>(consumerProps);
+        DefaultKafkaConsumerFactory<String, ProductAEventMessage> consumerFactory = new DefaultKafkaConsumerFactory<>(consumerProps, null, new JsonDeserializer<>(ProductAEventMessage.class));
 
         //topic
         ContainerProperties containerProps = new ContainerProperties(PUBLISHING_TOPIC);
@@ -67,14 +71,13 @@ public class ProductAProducerTest {
         records = new LinkedBlockingDeque<>();
 
         //kafka listener
-        container.setupMessageListener((MessageListener<String, String>) record -> {
+        container.setupMessageListener((MessageListener<String, ProductAEventMessage>) record -> {
             log.debug("test listener received message: " + record.toString());
             records.add(record);
         });
 
         //start container + listener
         container.start();
-
 
         //wait until container has required number of partitions
         ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
@@ -86,7 +89,7 @@ public class ProductAProducerTest {
     }
 
     @Test
-    public void testPublish() throws InterruptedException {
+    public void test_publish_ProductACreatedEvent() throws InterruptedException {
         //publish
         ProductADto prod = new ProductADto();
         prod.setAccountId(1L);
@@ -96,10 +99,39 @@ public class ProductAProducerTest {
         productAProducer.publishProductACreatedEvent(prod);
 
         //check message was received
-        ConsumerRecord<String, String> received = records.poll(10, TimeUnit.SECONDS);
+        ConsumerRecord<String, ProductAEventMessage> received = records.poll(10, TimeUnit.SECONDS);
 
         assertNotNull(received);
         log.debug("message received: " + received.toString());
+
+        ProductAEventMessage event = received.value();
+
+        assertNotNull(event);
+        assertEquals(ProductAEventType.PRODUCT_A_CREATED, event.getEvent());
+        assertEquals(event.getPayload().getAccountId(), prod.getAccountId());
+    }
+
+    @Test
+    public void test_publish_ProductAUpdatedEvent() throws InterruptedException {
+        //publish
+        ProductADto prod = new ProductADto();
+        prod.setAccountId(1L);
+        prod.setCharge(Money.USD(BigDecimal.valueOf(1200L)));
+        prod.setSetupCharge(Money.USD(BigDecimal.valueOf(300L)));
+
+        productAProducer.publishProductAUpdatedEvent(prod);
+
+        //check message was received
+        ConsumerRecord<String, ProductAEventMessage> received = records.poll(10, TimeUnit.SECONDS);
+
+        assertNotNull(received);
+        log.debug("message received: " + received.toString());
+
+        ProductAEventMessage event = received.value();
+
+        assertNotNull(event);
+        assertEquals(ProductAEventType.PRODUCT_A_UPDATED, event.getEvent());
+        assertEquals(event.getPayload().getAccountId(), prod.getAccountId());
     }
 
 }

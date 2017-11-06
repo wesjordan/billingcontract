@@ -1,11 +1,8 @@
 package com.wesjordan.billingcontract.stream.producer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesjordan.billingcontract.dto.ProductADto;
-import com.wesjordan.billingcontract.stream.event.ProductACreatedEvent;
-import com.wesjordan.billingcontract.stream.event.ProductAEvent;
-import com.wesjordan.billingcontract.stream.event.ProductAUpdatedEvent;
+import com.wesjordan.billingcontract.stream.event.ProductAEventMessage;
+import com.wesjordan.billingcontract.stream.event.ProductAEventType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -20,50 +17,40 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 public class ProductAProducer {
 
     private static final Log logger = LogFactory.getLog(ProductAProducer.class);
-    private KafkaTemplate<Integer,String> kafkaTemplate;
-    private ObjectMapper objectMapper;
+    private KafkaTemplate<String, ProductAEventMessage> kafkaTemplate;
+
 
     @Autowired
-    public ProductAProducer(KafkaTemplate<Integer,String> kafkaTemplate, ObjectMapper objectMapper){
+    public ProductAProducer(KafkaTemplate<String, ProductAEventMessage> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
-        this.objectMapper = objectMapper;
+
     }
 
     public void publishProductACreatedEvent(ProductADto productADto){
-        String data = serializeToString(new ProductACreatedEvent(productADto));
-
-        publish(data);
+        ProductAEventMessage create = new ProductAEventMessage();
+        create.setEvent(ProductAEventType.PRODUCT_A_CREATED);
+        create.setPayload(productADto);
+        publish(create);
     }
 
     public void publishProductAUpdatedEvent(ProductADto productADto){
-        String data = serializeToString(new ProductAUpdatedEvent(productADto));
-
-        publish(data);
+        ProductAEventMessage update = new ProductAEventMessage();
+        update.setEvent(ProductAEventType.PRODUCT_A_UPDATED);
+        update.setPayload(productADto);
+        publish(update);
     }
 
-    private String serializeToString(ProductAEvent productAEvent){
-        String data = "";
+    private void publish(ProductAEventMessage data) {
+        ProducerRecord<String, ProductAEventMessage> record = new ProducerRecord<>("ProductA", data);
 
-        try {
-            data = objectMapper.writeValueAsString(productAEvent);
-        } catch (JsonProcessingException e) {
-            logger.error("unable to serialize object for publishing to kafka", e);
-        }
-
-        return data;
-    }
-
-    private void publish(String data){
-        ProducerRecord<Integer, String> record = new ProducerRecord<>("ProductA", data);
-
-        ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send(record);
-        future.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+        ListenableFuture<SendResult<String, ProductAEventMessage>> future = kafkaTemplate.send(record);
+        future.addCallback(new ListenableFutureCallback<SendResult<String, ProductAEventMessage>>() {
             @Override
             public void onFailure(Throwable throwable) {
                     logger.error(throwable.getMessage());
                 }
                 @Override
-                public void onSuccess(SendResult<Integer, String> integerStringSendResult) {
+                public void onSuccess(SendResult<String, ProductAEventMessage> productASendResult) {
                     logger.info("event message written to kafka!");
                 }
         });
