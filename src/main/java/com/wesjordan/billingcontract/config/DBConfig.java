@@ -3,6 +3,7 @@ package com.wesjordan.billingcontract.config;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -20,7 +21,9 @@ public class DBConfig {
 
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUser(username);
-        dataSource.setPassword(pwd);
+        if (!StringUtils.isEmpty(pwd)) {
+            dataSource.setPassword(pwd);
+        }
         dataSource.setURL(dbUrl);
 
         return dataSource;
