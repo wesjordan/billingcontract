@@ -16,3 +16,10 @@ Image   |   Service    | Recommended
 MySQL | DB | example here 
 Kafka | Distributed streaming platform | example here
 
+
+## Execution
+```
+mvn clean install
+java -jar target/billingcontract-VERSION.jar
+```
+To confirm that the app is running, head over to http://localhost:8080/swagger-ui.html 
