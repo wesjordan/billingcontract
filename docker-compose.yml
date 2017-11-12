@@ -1,0 +1,9 @@
+version: '3'
+services:
+ billingcontract:
+  environment:
+   - BILLING_CONTRACT_DB=mysql://root:root@docker.for.mac.localhost:3306/billing_contract
+#docker.for.mac.localhost placeholder gets replaced with the host IP host when running on mac
+  image: aws_container_repo_billingcontract
+  ports:
+   - "8080:8080"
