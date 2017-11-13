@@ -4,12 +4,24 @@ services:
   image: mysql
   restart: always
 
+ kafka:
+  image: spotify/kafka
+  hostname: kafka
+  environment:
+   - ADVERTISED_HOST=kafka
+   - ADVERTISED_PORT=9092
+  ports:
+   - "2181:2181"
+   - "9092:9092"
+
  billingcontract:
   environment:
    - BILLING_CONTRACT_DB=mysql://root:root@db:3306/billing_contract
+   - kafka.bootstrap-servers=kafka:9092
 #docker.for.mac.localhost placeholder gets replaced with the host IP host when running on mac
   image: aws_container_repo_billingcontract
   ports:
    - "8080:8080"
   depends_on:
    - "db"
+   - "kafka"
