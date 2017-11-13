@@ -13,7 +13,7 @@ Download and run the following Docker images:
 
 Image   |   Service    | Recommended 
 ------- | ------------ |-------------
-MySQL | DB | example here 
+MySQL | DB | [verified](https://hub.docker.com/_/mysql/) 
 Kafka | Distributed streaming platform | example here
 
 
