@@ -28,15 +28,3 @@ services:
   ports:
    - "2181:2181"
    - "9092:9092"
-
- billingcontract:
-  environment:
-   - BILLING_CONTRACT_DB=mysql://root:root@db:3306/billing_contract
-   - kafka.bootstrap-servers=kafka:9092
-#docker.for.mac.localhost placeholder gets replaced with the host IP host when running on mac
-  image: jordanwb85/billingcontract #aws_container_repo_billingcontract
-  ports:
-   - "8080:8080"
-  depends_on:
-   - "db"
-   - "kafka"
