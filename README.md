@@ -7,4 +7,6 @@
 ```
 docker-compose up
 ```
-To confirm that the app is running, head over to http://localhost:8080/swagger-ui.html 
+To confirm that the app is running, head over to http://localhost:8080/health 
+
+To interact with the API, head over to http://localhost:8080/swagger-ui.html 
