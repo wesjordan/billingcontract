@@ -6,6 +6,7 @@ jdk: oraclejdk8
 
 services:
  - mysql
+ - docker
 
 
 before_install:
