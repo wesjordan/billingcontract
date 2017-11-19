@@ -19,9 +19,9 @@ addons:
 
 cache:
   bundler: true
-#  directories:
-#    - '$HOME/.m2/repository'
-#    - '$HOME/.sonar/cache'
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
 
 script:
   - ./mvnw clean install
