@@ -20,7 +20,7 @@ public class ProductAKafkaConfig {
     private String bootstrapServers;
 
     @Bean
-    public KafkaTemplate<String, ProductAEventMessage> kafkaTemplate() {
+    public KafkaTemplate<String, ProductAEventMessage> producerKafkaTemplate() {
         return new KafkaTemplate<>(getProductAProducerFactory());
     }
 
