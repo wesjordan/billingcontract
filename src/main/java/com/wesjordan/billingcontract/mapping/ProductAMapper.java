@@ -11,6 +11,7 @@ public class ProductAMapper extends ConfigurableMapper{
     @Override
     protected void configure(MapperFactory factory) {
         factory.classMap(ProductA.class, ProductADto.class)
+                .field("id", "id")
                 .field("accountId","accountId")
                 .field("charge", "charge")
                 .field("setupCharge", "setupCharge")
