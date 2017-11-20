@@ -1,4 +1,4 @@
-package com.wesjordan.billingcontract.stream;
+package com.wesjordan.billingcontract.stream.config;
 
 import com.wesjordan.billingcontract.stream.event.ProductAEventMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -14,13 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class ProductAKafkaConfig {
+public class ProductAProducerConfig {
 
     @Value("${kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Bean
-    public KafkaTemplate<String, ProductAEventMessage> kafkaTemplate() {
+    public KafkaTemplate<String, ProductAEventMessage> producerKafkaTemplate() {
         return new KafkaTemplate<>(getProductAProducerFactory());
     }
 

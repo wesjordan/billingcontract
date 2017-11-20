@@ -1,5 +1,6 @@
 package com.wesjordan.billingcontract.service;
 
+import com.wesjordan.billingcontract.domain.ProductA;
 import com.wesjordan.billingcontract.dto.ProductADto;
 import com.wesjordan.billingcontract.mapping.ProductAMapper;
 import com.wesjordan.billingcontract.repository.ProductARepository;
@@ -28,6 +29,11 @@ public class ProductAService {
 
     public void updateProductA(ProductADto productADto){
         productAProducer.publishProductAUpdatedEvent(productADto);
+    }
+
+
+    public void saveProductA(ProductA productA) {
+        productARepository.save(productA);
     }
 
     public Iterable<ProductADto> getAllProducts(){
