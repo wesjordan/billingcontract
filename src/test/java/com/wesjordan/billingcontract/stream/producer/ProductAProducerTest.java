@@ -1,10 +1,9 @@
-package com.wesjordan.billingcontract.stream.produer;
+package com.wesjordan.billingcontract.stream.producer;
 
 import com.wesjordan.billingcontract.domain.Money;
 import com.wesjordan.billingcontract.dto.ProductADto;
 import com.wesjordan.billingcontract.stream.event.ProductAEventMessage;
 import com.wesjordan.billingcontract.stream.event.ProductAEventType;
-import com.wesjordan.billingcontract.stream.producer.ProductAProducer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.After;
 import org.junit.Before;
