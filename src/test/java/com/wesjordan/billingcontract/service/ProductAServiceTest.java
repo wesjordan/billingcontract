@@ -5,6 +5,7 @@ import com.wesjordan.billingcontract.domain.Money;
 import com.wesjordan.billingcontract.domain.ProductA;
 import com.wesjordan.billingcontract.dto.ProductADto;
 import com.wesjordan.billingcontract.mapping.ProductAMapper;
+import com.wesjordan.billingcontract.repository.ProductARepository;
 import com.wesjordan.billingcontract.stream.producer.ProductAProducer;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +30,9 @@ import static org.mockito.Mockito.verify;
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ProductAServiceTestConfig.class)
 public class ProductAServiceTest {
+
+    @Mock
+    private ProductARepository productARepository;
 
     @Mock
     private ProductAProducer productAProducer;
