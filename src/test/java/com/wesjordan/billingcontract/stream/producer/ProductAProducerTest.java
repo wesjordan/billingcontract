@@ -2,16 +2,16 @@ package com.wesjordan.billingcontract.stream.producer;
 
 import com.wesjordan.billingcontract.domain.Money;
 import com.wesjordan.billingcontract.dto.ProductADto;
+import com.wesjordan.billingcontract.stream.config.ProductAProducerConfig;
 import com.wesjordan.billingcontract.stream.event.ProductAEventMessage;
 import com.wesjordan.billingcontract.stream.event.ProductAEventType;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
@@ -34,13 +34,13 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Slf4j
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = {ProductAProducer.class, ProductAProducerConfig.class})
 @DirtiesContext
 public class ProductAProducerTest {
-    private static final Logger log = LoggerFactory.getLogger(ProductAProducerTest.class);
 
-    private static String PUBLISHING_TOPIC = "ProductA";
+    private static String PUBLISHING_TOPIC = "ProductATest";
 
     @Autowired
     ProductAProducer productAProducer;
