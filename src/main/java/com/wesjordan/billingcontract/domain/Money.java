@@ -1,7 +1,6 @@
 package com.wesjordan.billingcontract.domain;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
@@ -9,7 +8,6 @@ import java.util.Currency;
 
 @Embeddable
 @Getter
-@Setter
 public class Money {
 
     private BigDecimal value;
@@ -19,17 +17,21 @@ public class Money {
         //JPA
     }
 
-    Money(BigDecimal value, Currency currency){
+    public Money(BigDecimal value, Currency currency) {
         this.value  = value;
         this.currency = currency;
     }
 
     public static Money usd(BigDecimal value) {
-        return new Money(value, Currency.getInstance("USD"));
+        final Money m;
+        m = new Money(value, Currency.getInstance("USD"));
+        return m;
     }
 
     public static Money eur(BigDecimal value) {
-        return new Money(value, Currency.getInstance("EUR"));
+        final Money m;
+        m = new Money(value, Currency.getInstance("EUR"));
+        return m;
     }
 
 }

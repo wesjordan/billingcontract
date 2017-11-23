@@ -8,9 +8,8 @@ import ma.glasnost.orika.metadata.Type;
 public class MoneyConverter extends CustomConverter<Money, Money> {
     @Override
     public Money convert(Money money, Type<? extends Money> type, MappingContext mappingContext) {
-        Money m = new Money();
-        m.setCurrency(money.getCurrency());
-        m.setValue(money.getValue());
+        final Money m;
+        m = new Money(money.getValue(), money.getCurrency());
         return m;
     }
 }
