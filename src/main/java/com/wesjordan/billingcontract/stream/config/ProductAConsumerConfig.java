@@ -63,11 +63,11 @@ public class ProductAConsumerConfig {
     public ConcurrentMessageListenerContainer<String, ProductAEventMessage> messageListenerContainer() {
         ContainerProperties containerProperties = new ContainerProperties(springIntegrationKafkaTopic);
 
-        return new ConcurrentMessageListenerContainer<>(productAListenerConsumerFactory(), containerProperties);
+        return new ConcurrentMessageListenerContainer<>(kafkaListenerContainerFactory(), containerProperties);
     }
 
     @Bean
-    public ConsumerFactory<String, ProductAEventMessage> productAListenerConsumerFactory() {
+    public ConsumerFactory<String, ProductAEventMessage> kafkaListenerContainerFactory() {
         Map<String, Object> containerProperties = new HashMap<>();
         containerProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         containerProperties.put(ConsumerConfig.GROUP_ID_CONFIG, "productAConsumerGroup");
