@@ -5,6 +5,7 @@ import com.wesjordan.billingcontract.stream.event.ProductAEventMessage;
 import com.wesjordan.billingcontract.stream.event.ProductAEventType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
@@ -13,11 +14,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ProductAProducer {
-
     private DirectChannel producingChannel;
 
     @Autowired
-    public ProductAProducer(DirectChannel producingChannel) {
+    public ProductAProducer(@Lazy DirectChannel producingChannel) {
         this.producingChannel = producingChannel;
     }
 
