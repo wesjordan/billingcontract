@@ -7,6 +7,7 @@ import com.wesjordan.billingcontract.stream.consumer.ProductAConsumer;
 import com.wesjordan.billingcontract.stream.event.ProductAEventMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,6 +51,10 @@ public class ProductAProducerTest {
     @ClassRule
     public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, PUBLISHING_TOPIC);
 
+    @After
+    public void tearDown() throws Exception {
+        productARepository.deleteAll();
+    }
 
     @Test
     public void test_publish_ProductACreatedEvent() throws InterruptedException {
@@ -65,8 +70,6 @@ public class ProductAProducerTest {
 
         productAConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
         assertEquals(0, productAConsumer.getLatch().getCount());
-
-        productARepository.deleteAll();
     }
 
     @Test
@@ -83,7 +86,5 @@ public class ProductAProducerTest {
 
         productAConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
         assertEquals(0, productAConsumer.getLatch().getCount());
-
-        productARepository.deleteAll();
     }
 }
