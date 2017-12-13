@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.After;
 import org.junit.ClassRule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,7 +55,7 @@ public class ProductAProducerTest {
         productARepository.deleteAll();
     }
 
-    @Test
+    //@Test
     public void test_publish_ProductACreatedEvent() throws InterruptedException {
         //publish
         ProductADto prod = new ProductADto();
@@ -72,7 +71,7 @@ public class ProductAProducerTest {
         assertEquals(0, productAConsumer.getLatch().getCount());
     }
 
-    @Test
+    //@Test
     public void test_publish_ProductAUpdatedEvent() throws InterruptedException {
         //publish
         ProductADto prod = new ProductADto();
