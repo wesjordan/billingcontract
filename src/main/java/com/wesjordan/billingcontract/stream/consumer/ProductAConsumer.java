@@ -32,8 +32,8 @@ public class ProductAConsumer implements MessageHandler {
     public void handleMessage(Message<?> message) {
 
         if (message != null) {
-            log.debug("Message Received: ".concat(message.getPayload().toString()));
             ProductA productA = productAMapper.map(message.getPayload(), ProductA.class);
+            log.debug("Message Received: ".concat(productA.toString()));
             productAService.saveProductA(productA);
         } else {
             log.error("null message received from stream");
