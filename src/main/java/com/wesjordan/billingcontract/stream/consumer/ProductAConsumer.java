@@ -32,7 +32,7 @@ public class ProductAConsumer implements MessageHandler {
     public void handleMessage(Message<?> message) {
 
         if (message != null) {
-            log.debug("Message Received: ".concat(message.toString()));
+            log.debug("Message Received: ".concat(message.getPayload().toString()));
             ProductA productA = productAMapper.map(message.getPayload(), ProductA.class);
             productAService.saveProductA(productA);
         } else {
