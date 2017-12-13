@@ -2,10 +2,12 @@ package com.wesjordan.billingcontract.stream.producer;
 
 import com.wesjordan.billingcontract.domain.Money;
 import com.wesjordan.billingcontract.dto.ProductADto;
+import com.wesjordan.billingcontract.repository.ProductARepository;
 import com.wesjordan.billingcontract.stream.consumer.ProductAConsumer;
 import com.wesjordan.billingcontract.stream.event.ProductAEventMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,12 +42,19 @@ public class ProductAProducerTest {
     @Autowired
     ApplicationContext applicationContext;
 
+    @Autowired
+    ProductARepository productARepository;
+
     private KafkaMessageListenerContainer<String, ProductAEventMessage> container;
     private BlockingQueue<ConsumerRecord<String, ProductAEventMessage>> records;
 
     @ClassRule
     public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, PUBLISHING_TOPIC);
 
+    @After
+    public void tearDown() throws Exception {
+        productARepository.deleteAll();
+    }
 
     @Test
     public void test_publish_ProductACreatedEvent() throws InterruptedException {

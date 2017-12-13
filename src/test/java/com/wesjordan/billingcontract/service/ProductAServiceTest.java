@@ -7,6 +7,7 @@ import com.wesjordan.billingcontract.dto.ProductADto;
 import com.wesjordan.billingcontract.mapping.ProductAMapper;
 import com.wesjordan.billingcontract.repository.ProductARepository;
 import com.wesjordan.billingcontract.stream.producer.ProductAProducer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,10 @@ public class ProductAServiceTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    @After
+    public void tearDown() throws Exception {
+        productARepository.deleteAll();
+    }
 
     @Test
     public void testGetProductAWithSpecificAccountId(){
