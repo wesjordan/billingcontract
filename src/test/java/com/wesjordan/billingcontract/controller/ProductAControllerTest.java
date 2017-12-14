@@ -9,10 +9,12 @@ import com.wesjordan.billingcontract.mapping.ProductAMapper;
 import com.wesjordan.billingcontract.repository.ProductARepository;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -46,8 +48,8 @@ public class ProductAControllerTest {
 
     private static String PUBLISHING_TOPIC = "ProductA";
 
-//    @ClassRule
-//    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, PUBLISHING_TOPIC);
+    @ClassRule
+    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, PUBLISHING_TOPIC);
 
     @Before
     public void setup() throws Exception{
