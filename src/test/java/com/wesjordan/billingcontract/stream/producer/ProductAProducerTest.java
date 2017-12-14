@@ -72,19 +72,19 @@ public class ProductAProducerTest {
         assertEquals(0, productAConsumer.getLatch().getCount());
     }
 
-    @Test
-    public void test_publish_ProductAUpdatedEvent() throws InterruptedException {
-        //publish
-        ProductADto prod = new ProductADto();
-        prod.setAccountId(1L);
-        prod.setCharge(Money.usd(BigDecimal.valueOf(1200L)));
-        prod.setSetupCharge(Money.usd(BigDecimal.valueOf(300L)));
-
-        log.info("Sending ProductA message to embedded kafka instance");
-        productAProducer.publishProductAUpdatedEvent(prod);
-        log.info("Sent ProductA message to embedded kafka instance");
-
-        productAConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
-        assertEquals(0, productAConsumer.getLatch().getCount());
-    }
+//    @Test
+//    public void test_publish_ProductAUpdatedEvent() throws InterruptedException {
+//        //publish
+//        ProductADto prod = new ProductADto();
+//        prod.setAccountId(1L);
+//        prod.setCharge(Money.usd(BigDecimal.valueOf(1200L)));
+//        prod.setSetupCharge(Money.usd(BigDecimal.valueOf(300L)));
+//
+//        log.info("Sending ProductA message to embedded kafka instance");
+//        productAProducer.publishProductAUpdatedEvent(prod);
+//        log.info("Sent ProductA message to embedded kafka instance");
+//
+//        productAConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
+//        assertEquals(0, productAConsumer.getLatch().getCount());
+//    }
 }
